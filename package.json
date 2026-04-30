@@ -1,0 +1,9 @@
+{
+  "name": "reading-wpm",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A dark, modern words-per-minute reading app with local text storage.",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReadingWPM</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">ReadingWPM</p>
+          <h1>Train your reading speed without losing focus.</h1>
+        </div>
+        <p class="hero-copy">
+          Save texts locally, tune your pace, and read one, two, or three words
+          at a time in a calm dark interface built for long sessions.
+        </p>
+      </header>
+
+      <main class="workspace">
+        <section class="panel composer-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">Text Library</p>
+              <h2>Write once, keep it here</h2>
+            </div>
+            <span class="pill" id="library-count">0 saved</span>
+          </div>
+
+          <div class="field-stack">
+            <label class="field">
+              <span class="field-label">Title</span>
+              <input
+                id="text-title"
+                type="text"
+                maxlength="80"
+                placeholder="Example: Deep work notes"
+              />
+            </label>
+
+            <label class="field">
+              <span class="field-label">Text</span>
+              <textarea
+                id="text-input"
+                rows="12"
+                placeholder="Paste or write the text you want to read."
+              ></textarea>
+            </label>
+          </div>
+
+          <div class="editor-meta">
+            <span id="draft-word-count">0 words</span>
+            <span id="selected-text-label">New draft</span>
+          </div>
+
+          <div class="button-row">
+            <button id="new-draft-btn" class="button ghost" type="button">
+              New Draft
+            </button>
+            <button id="save-text-btn" class="button secondary" type="button">
+              Save Text
+            </button>
+            <button
+              id="start-from-editor-btn"
+              class="button primary"
+              type="button"
+            >
+              Start Reading
+            </button>
+          </div>
+
+          <div class="saved-list" id="saved-texts"></div>
+        </section>
+
+        <section class="panel reader-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">Reader</p>
+              <h2>One word. Clean rhythm.</h2>
+            </div>
+            <span class="pill" id="reader-status" data-state="idle">Ready</span>
+          </div>
+
+          <div class="control-grid">
+            <div class="control-card">
+              <div class="control-header">
+                <label for="wpm-range">Speed</label>
+                <span id="wpm-value">300 WPM</span>
+              </div>
+              <input
+                id="wpm-range"
+                type="range"
+                min="50"
+                max="1000"
+                step="5"
+                value="300"
+              />
+              <input
+                id="wpm-input"
+                class="number-input"
+                type="number"
+                min="50"
+                max="1000"
+                step="5"
+                value="300"
+              />
+            </div>
+
+            <div class="control-card">
+              <div class="control-header">
+                <label for="font-range">Text Size</label>
+                <span id="font-value">72 px</span>
+              </div>
+              <input
+                id="font-range"
+                type="range"
+                min="36"
+                max="132"
+                step="2"
+                value="72"
+              />
+              <input
+                id="font-input"
+                class="number-input"
+                type="number"
+                min="36"
+                max="132"
+                step="2"
+                value="72"
+              />
+            </div>
+
+            <div class="control-card">
+              <div class="control-header">
+                <span class="field-label">Words at once</span>
+                <span id="chunk-value">1 word</span>
+              </div>
+              <div class="segment-control" role="group" aria-label="Words at once">
+                <button
+                  id="chunk-1-btn"
+                  class="segment-button is-active"
+                  type="button"
+                  data-chunk-size="1"
+                >
+                  1
+                </button>
+                <button
+                  id="chunk-2-btn"
+                  class="segment-button"
+                  type="button"
+                  data-chunk-size="2"
+                >
+                  2
+                </button>
+                <button
+                  id="chunk-3-btn"
+                  class="segment-button"
+                  type="button"
+                  data-chunk-size="3"
+                >
+                  3
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="reader-stage">
+            <p class="reader-active-title" id="reader-active-title">
+              No active text
+            </p>
+            <div class="reader-word" id="reader-word">Ready</div>
+            <p class="reader-subtext" id="reader-subtext">
+              Paste or load a text, then press Start Reading.
+            </p>
+          </div>
+
+          <div class="progress-panel">
+            <div class="progress-track">
+              <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            <div class="progress-copy">
+              <span id="progress-label">0 / 0 words</span>
+              <span>Use <strong>&uarr;</strong>, <strong>&darr;</strong>, and <strong>Space</strong></span>
+            </div>
+          </div>
+
+          <div class="button-row reader-actions">
+            <button id="start-btn" class="button primary" type="button">
+              Start
+            </button>
+            <button id="pause-btn" class="button secondary" type="button">
+              Pause
+            </button>
+            <button id="reset-btn" class="button ghost" type="button">
+              Reset
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="focus-overlay" class="focus-overlay" aria-hidden="true">
+      <div class="focus-overlay-backdrop"></div>
+      <div class="focus-reader-box">
+        <p class="focus-title" id="focus-title">No active text</p>
+        <div class="focus-word" id="focus-word">Ready</div>
+        <p class="focus-meta" id="focus-meta">
+          300 WPM · 1 word at once · Space pauses
+        </p>
+      </div>
+    </div>
+
+    <template id="saved-text-template">
+      <article class="saved-card">
+        <div class="saved-card-copy">
+          <div class="saved-card-top">
+            <h3 class="saved-card-title"></h3>
+            <span class="saved-card-meta"></span>
+          </div>
+          <p class="saved-card-preview"></p>
+        </div>
+        <div class="saved-card-actions">
+          <button class="button secondary small load-button" type="button">
+            Load
+          </button>
+          <button class="button ghost small delete-button" type="button">
+            Delete
+          </button>
+        </div>
+      </article>
+    </template>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
