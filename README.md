@@ -6,6 +6,19 @@ ReadingWPM is a lightweight browser app for paced reading practice. Paste or sav
 
 The project is a functional local prototype built with plain web technologies and a dependency-free Node.js static server.
 
+## How It Works
+
+1. Paste a new text or load one from the local text library.
+2. Choose the target WPM, font size, and number of words shown at once.
+3. Start the reader to display timed word chunks in focus mode.
+4. Follow the word counter and progress bar, then pause, resume, or reset the session as needed.
+
+The displayed WPM is the pace selected by the user; the app does not currently calculate reading speed from a separately measured completion time.
+
+## Screenshot
+
+<!-- Add ReadingWPM screenshot here -->
+
 ## Features
 
 - Adjustable reading speed from 50 to 1,000 words per minute
