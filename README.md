@@ -83,3 +83,7 @@ Texts, the current draft, and reading settings are stored only in the browser's 
 - Add optional reading-session history and simple progress charts.
 - Add automated interaction and accessibility tests.
 - Publish a hosted demo and add a short README screenshot or GIF.
+
+## License
+
+No repository-level license has been added. All rights remain with the author unless a license is added later.
